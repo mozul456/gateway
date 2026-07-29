@@ -57,4 +57,4 @@ COPY mediamtx.yml /home/container/mediamtx.yml
 
 WORKDIR /home/container
 
-CMD ["/bin/bash","/home/container/entrypoint.sh"]
+CMD ["/usr/bin/env","bash","/home/container/entrypoint.sh"]
