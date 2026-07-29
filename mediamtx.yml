@@ -1,0 +1,22 @@
+logLevel: info
+logDestinations: [stdout]
+logFile: /home/container/logs/mediamtx.log
+
+rtspAddress: :8554
+rtmpAddress: :1935
+srtAddress: :9000
+
+api: true
+apiAddress: :9997
+
+paths:
+  live:
+    source: publisher
+    record: false
+
+  fallback:
+    source: publisher
+    record: false
+
+webrtc: false
+hls: false
