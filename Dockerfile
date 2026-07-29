@@ -52,7 +52,11 @@ RUN pip3 install --break-system-packages \
 
 
 COPY entrypoint.sh /home/container/entrypoint.sh
-RUN chmod +x /home/container/entrypoint.sh
+
+RUN sed -i 's/\r$//' /home/container/entrypoint.sh \
+    && chmod +x /home/container/entrypoint.sh \
+    && head -5 /home/container/entrypoint.sh \
+    && file /home/container/entrypoint.sh
 
 
 COPY mediamtx.yml /home/container/mediamtx.yml
