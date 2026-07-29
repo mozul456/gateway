@@ -20,6 +20,9 @@ RUN apt-get update && apt-get install -y \
     gstreamer1.0-x \
     gstreamer1.0-gl \
     gstreamer1.0-plugins-base-apps \
+    gstreamer1.0-nice \
+    gstreamer1.0-plugins-base-apps \
+    gir1.2-glib-2.0 \
     libgstreamer1.0-dev \
     xvfb \
     chromium \
