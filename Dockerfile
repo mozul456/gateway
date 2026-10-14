@@ -2,6 +2,10 @@ FROM ghcr.io/parkervcp/yolks:debian
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# ============================================================
+# Dependencias base
+# ============================================================
+
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
@@ -21,7 +25,6 @@ RUN apt-get update && apt-get install -y \
     gstreamer1.0-gl \
     gstreamer1.0-plugins-base-apps \
     gstreamer1.0-nice \
-    gstreamer1.0-plugins-base-apps \
     gir1.2-glib-2.0 \
     libgstreamer1.0-dev \
     xvfb \
@@ -32,8 +35,15 @@ RUN apt-get update && apt-get install -y \
     fonts-liberation \
     file \
     tar \
+    git \
+    build-essential \
+    cmake \
+    libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# ============================================================
+# MediaMTX
+# ============================================================
 
 ARG MEDIAMTX_VERSION=1.19.3
 
@@ -44,12 +54,29 @@ https://github.com/bluenviron/mediamtx/releases/download/v${MEDIAMTX_VERSION}/me
 && chmod +x /usr/local/bin/mediamtx \
 && rm /tmp/mediamtx.tar.gz
 
+# ============================================================
+# SRTLA receiver
+# ============================================================
+
+RUN git clone https://github.com/BELABOX/srtla.git /tmp/srtla \
+    && cd /tmp/srtla \
+    && make \
+    && cp srtla_rec /usr/local/bin/srtla_rec \
+    && chmod +x /usr/local/bin/srtla_rec \
+    && rm -rf /tmp/srtla
+
+# ============================================================
+# Python dependencies
+# ============================================================
 
 COPY requirements.txt /tmp/requirements.txt
 
 RUN pip3 install --break-system-packages \
     -r /tmp/requirements.txt
 
+# ============================================================
+# Application files
+# ============================================================
 
 COPY entrypoint.sh /home/container/entrypoint.sh
 
@@ -58,9 +85,7 @@ RUN sed -i 's/\r$//' /home/container/entrypoint.sh \
     && head -5 /home/container/entrypoint.sh \
     && file /home/container/entrypoint.sh
 
-
 COPY mediamtx.yml /home/container/mediamtx.yml
-
 
 WORKDIR /home/container
 
