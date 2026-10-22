@@ -8,16 +8,16 @@ ENV PYTHONUNBUFFERED=1
 # Versiones fijadas
 # ============================================================
 #
+# MediaMTX 1.21.2: versión estable más reciente.
+# Incluye correcciones posteriores a 1.19.3 en el manejo
+# de streams, DTS y códecs H.264/H.265.
+#
 # SRTLA_COMMIT: revisión confirmada en tu servidor actual.
 #
-# BELABOX_SRT_COMMIT: sustitúyelo por el hash que quieras
-# fijar. Obtén el HEAD actual con:
-#
-#   git ls-remote https://github.com/BELABOX/srt.git HEAD
-#
+# BELABOX_SRT_COMMIT: revisión confirmada de BELABOX SRT.
 # ============================================================
 
-ARG MEDIAMTX_VERSION=1.19.3
+ARG MEDIAMTX_VERSION=1.21.2
 ARG BELABOX_SRT_REPOSITORY=https://github.com/BELABOX/srt.git
 ARG BELABOX_SRT_COMMIT=4b6e11be7d2090a3c982c71903b56ed748075e9a
 ARG SRTLA_REPOSITORY=https://github.com/BELABOX/srtla.git
@@ -76,10 +76,6 @@ RUN set -eux; \
 
 # ============================================================
 # 3. BELABOX PATCHED SRT
-#
-# Debe compilarse ANTES de srtla_rec.
-# Instala la biblioteca SRT modificada de BELABOX y
-# srt-live-transmit, que actuará como receptor SRT intermedio.
 # ============================================================
 
 RUN set -eux; \
@@ -102,9 +98,6 @@ RUN set -eux; \
 
 # ============================================================
 # 4. SRTLA RECEIVER
-#
-# Se compila después del SRT de BELABOX para que srtla_rec
-# se enlace contra la biblioteca SRT modificada.
 # ============================================================
 
 RUN set -eux; \
